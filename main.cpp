@@ -1,6 +1,9 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
+const sf::Vector2f SLIDER_SIZE(50, 25);
+const sf::Vector2f CRANE_EXTENTION_SIZE(200, 24);
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(1200, 700), "Crane Simulator");
@@ -14,6 +17,15 @@ int main()
 
     sf::Sprite crane_sprite;
     crane_sprite.setTexture(texture);
+    sf::RectangleShape crane_sprite_extention;
+    crane_sprite_extention.setSize(CRANE_EXTENTION_SIZE);
+    crane_sprite_extention.setFillColor(sf::Color(255,235,59));
+    crane_sprite_extention.setPosition(600,75);
+
+    sf::RectangleShape slider;
+    slider.setSize(SLIDER_SIZE);
+    slider.setFillColor(sf::Color(180,180,180));
+    slider.setPosition(300,95);
     
 
     while(window.isOpen()){
@@ -31,6 +43,8 @@ int main()
 
         window.clear(sf::Color(255,255,255));
         window.draw(crane_sprite);
+        window.draw(crane_sprite_extention);
+        window.draw(slider);
         window.display();
     }
 

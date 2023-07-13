@@ -1,8 +1,30 @@
 #include <iostream>
+#include <vector>
 #include <SFML/Graphics.hpp>
 
 const sf::Vector2f SLIDER_SIZE(50, 25);
 const sf::Vector2f CRANE_EXTENTION_SIZE(200, 24);
+
+class MassBody{
+    private:
+        int mMass;
+        int mPosX;
+        int mPosY; 
+        std::vector<int> mVelocity;
+        std::vector<int> mAcceleration;
+    public:
+        void setMass(int x){
+            mMass = x;
+        }
+
+        std::vector<int> getVelocity(){
+            return mVelocity;
+        }
+
+        std::vector<int> getAcceleration(){
+            return mAcceleration;
+        }
+};
 
 int main()
 {
@@ -26,6 +48,8 @@ int main()
     slider.setSize(SLIDER_SIZE);
     slider.setFillColor(sf::Color(180,180,180));
     slider.setPosition(300,95);
+
+    dt = 0.001;
     
 
     while(window.isOpen()){

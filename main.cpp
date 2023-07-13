@@ -30,6 +30,7 @@ int main()
 
     while(window.isOpen()){
         sf::Event event;
+        sf::Vector2f offset(7,0);
 
         while (window.pollEvent(event))
         {
@@ -38,7 +39,15 @@ int main()
             case sf::Event::Closed:
                 window.close();
                 break;
+            case sf::Event::KeyPressed:
+                if (event.key.scancode == sf::Keyboard::Scan::D && !(slider.getGlobalBounds().contains(790,95))){
+                    slider.move(offset);
+                }
+                if (event.key.scancode == sf::Keyboard::Scan::A && !(slider.getGlobalBounds().contains(295,95))){
+                    slider.move(-offset);
+                }
             }
+
         }
 
         window.clear(sf::Color(255,255,255));

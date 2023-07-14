@@ -40,6 +40,8 @@ class MassBody{
         Vector2f mPosition;
         Vector2f mVelocity;
         Vector2f mForce;
+        sf::CircleShape mBallSprite;
+
     public:
         MassBody(float mass){
             this->mMass = mass;
@@ -50,6 +52,19 @@ class MassBody{
         void applyForce(Vector2f force){
             this->mForce += force;
         }   
+
+        void setPosition(float x, float y){
+            mPosition.x = x;
+            mPosition.y = y;
+
+            mBallSprite.setRadius(20);
+            mBallSprite.setFillColor(sf::Color(255,50,122));
+            mBallSprite.setPosition(mPosition.x, mPosition.y);
+        }
+
+        sf::CircleShape getSprite(){
+            return mBallSprite;
+        }
 
         void simulate(float dt){
             Vector2f acceleration = mForce / mMass;
@@ -79,6 +94,38 @@ class Spring{
         }
 };
 
+class GenerateMasses{
+    public:
+        int mNumberOfMasses;
+        MassBody **masses;
+
+    private:
+        GenerateMasses(int numberOfMasses, float m){
+            this->mNumberOfMasses = numberOfMasses;
+            masses = new MassBody*[numberOfMasses];
+            for(int i = 0; i < numberOfMasses; i++){
+                masses[i] = new MassBody(m);
+            }
+        }
+
+        void release(){
+            for (int i = 0; i < mNumberOfMasses; ++i)
+            {
+                delete(masses[i]);
+                masses[i] = NULL;
+            }
+                
+            delete(masses);
+            masses = NULL;
+        }
+
+        void simulate(float dt){
+            for(int i = 0; i < mNumberOfMasses; i++){
+                masses[i]->simulate(dt);
+            }
+        }
+};
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(1200, 700), "Crane Simulator");
@@ -103,7 +150,9 @@ int main()
     slider.setPosition(300,95);
 
     float dt = 0.001;
-    Vector2f dupa(5.,6.);
+
+    MassBody sphere(50);
+    sphere.setPosition(500.,500.);
 
     while(window.isOpen()){
         sf::Event event;
@@ -131,6 +180,7 @@ int main()
         window.draw(crane_sprite);
         window.draw(crane_sprite_extention);
         window.draw(slider);
+        window.draw(sphere.getSprite());
         window.display();
     }
 
